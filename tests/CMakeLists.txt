@@ -49,9 +49,15 @@ set(SPDLOG_UTESTS_SOURCES
     test_time_point.cpp
     test_stopwatch.cpp
     test_circular_q.cpp
+    test_polymorphic_allocators.cpp
     test_bin_to_hex.cpp
     test_ringbuffer.cpp
     test_timezone.cpp
+)
+
+# Tests that require all templates to be available (header-only build only)
+set(SPDLOG_UTESTS_HO_EXTRA_SOURCES
+    test_logger_alloc.cpp
 )
 
 if(NOT SPDLOG_NO_EXCEPTIONS)
@@ -88,5 +94,6 @@ endif()
 
 # The header-only library version tests
 if(SPDLOG_BUILD_TESTS_HO OR SPDLOG_BUILD_ALL)
+    list(APPEND SPDLOG_UTESTS_SOURCES ${SPDLOG_UTESTS_HO_EXTRA_SOURCES})
     spdlog_prepare_test(spudlog-utests-ho spudlog::spudlog_header_only)
 endif()
